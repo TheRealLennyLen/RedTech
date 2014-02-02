@@ -7,4 +7,5 @@ Feel free to contribute and help out the cause!
 Todo:
 
 1. Fix game crashing when the Refinery takes in ores from other mods.
-2. Create Sawmill Machine.
+2. Create Refinery upgrades such as double input. 
+3. Create Sawmill Machine.
