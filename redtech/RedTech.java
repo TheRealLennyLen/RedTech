@@ -3,6 +3,9 @@ package thereallennylen.redtech;
 import thereallennylen.redtech.refinery.BlockRefinery;
 import thereallennylen.redtech.refinery.GuiHandlerRefinery;
 import thereallennylen.redtech.refinery.TileEntityRefinery;
+import thereallennylen.redtech.sawmill.BlockSawmill;
+import thereallennylen.redtech.sawmill.GuiHandlerSawmill;
+import thereallennylen.redtech.sawmill.TileEntitySawmill;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -28,10 +31,14 @@ public class RedTech {
 
 	public static Block blockRefineryIdle;
 	public static Block blockRefineryActive;
+	
+	public static Block blockSawmillIdle;
+	public static Block blockSawmillActive;
 
 	public static CreativeTabs RedTechTab;
 
 	public static final int guiIdRefinery = 37;
+	public static final int guiIdSawmill = 38;
 
 	@EventHandler
 	public void load(FMLInitializationEvent e) {
@@ -56,21 +63,40 @@ public class RedTech {
 		blockRefineryActive = new BlockRefinery(3701, true)
 				.setUnlocalizedName("Refinery_Active").setHardness(3.7F)
 				.setLightValue(0.9F).setStepSound(Block.soundAnvilFootstep);
+		
+		blockSawmillIdle = new BlockSawmill(3702, false)
+		.setUnlocalizedName("Sawmill_Idle").setHardness(3.7F)
+		.setCreativeTab(RedTechTab)
+		.setStepSound(Block.soundAnvilFootstep);
+
+		blockSawmillActive = new BlockSawmill(3703, true)
+		.setUnlocalizedName("Sawmill_Active").setHardness(3.7F)
+		.setLightValue(0.9F).setStepSound(Block.soundAnvilFootstep);
 
 
 		registerBlock(blockRefineryIdle, "Refinery");
 		registerBlock(blockRefineryActive, "Refinery");
 		
+		registerBlock(blockSawmillIdle, "Sawmill");
+		registerBlock(blockSawmillActive, "Sawmill");
+		
 
 		GameRegistry.registerTileEntity(TileEntityRefinery.class, "RedtechRefinery");
+		
+		GameRegistry.registerTileEntity(TileEntitySawmill.class, "RedtechSawmill");
 
 		LanguageRegistry.instance().addStringLocalization("container.Refinery",
 				"Refinery");
+		
+		LanguageRegistry.instance().addStringLocalization("container.Sawmill",
+				"Sawmill");
 
 		LanguageRegistry.instance().addStringLocalization(
 				RedTechTab.getTranslatedTabLabel(), "RedTech");
 
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandlerRefinery());
+		
+		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandlerSawmill());
 
 		GameRegistry.addRecipe(new ItemStack(RedTech.blockRefineryIdle), "rir",
 				"ipi", "rfr", 'r', redstoneStack, 'i', ironStack, 'f',

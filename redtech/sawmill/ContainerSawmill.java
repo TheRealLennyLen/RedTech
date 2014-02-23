@@ -1,5 +1,7 @@
-package thereallennylen.redtech.refinery;
+package thereallennylen.redtech.sawmill;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -8,17 +10,15 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class ContainerRefinery extends Container {
-	private TileEntityRefinery Refinery;
+public class ContainerSawmill extends Container {
+	private TileEntitySawmill Sawmill;
 	private int lastCookTime;
 	private int lastBurnTime;
 
-	public ContainerRefinery(InventoryPlayer par1InventoryPlayer,
-			TileEntityRefinery par2TileEntityFurnace) {
-		this.Refinery = par2TileEntityFurnace;
+	public ContainerSawmill(InventoryPlayer par1InventoryPlayer,
+			TileEntitySawmill par2TileEntityFurnace) {
+		this.Sawmill = par2TileEntityFurnace;
 		this.addSlotToContainer(new Slot(par2TileEntityFurnace, 0, 56, 35));
 		this.addSlotToContainer(new Slot(par2TileEntityFurnace, 1, 8, 56));
 		this.addSlotToContainer(new SlotFurnace(par1InventoryPlayer.player,
@@ -41,8 +41,8 @@ public class ContainerRefinery extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting par1ICrafting) {
 		super.addCraftingToCrafters(par1ICrafting);
-		par1ICrafting.sendProgressBarUpdate(this, 0, this.Refinery.cookTime);
-		par1ICrafting.sendProgressBarUpdate(this, 1, this.Refinery.power);
+		par1ICrafting.sendProgressBarUpdate(this, 0, this.Sawmill.cookTime);
+		par1ICrafting.sendProgressBarUpdate(this, 1, this.Sawmill.power);
 	}
 
 	@Override
@@ -52,35 +52,35 @@ public class ContainerRefinery extends Container {
 		for (int i = 0; i < this.crafters.size(); ++i) {
 			ICrafting icrafting = (ICrafting) this.crafters.get(i);
 
-			if (this.lastCookTime != this.Refinery.cookTime) {
+			if (this.lastCookTime != this.Sawmill.cookTime) {
 				icrafting
-						.sendProgressBarUpdate(this, 0, this.Refinery.cookTime);
+						.sendProgressBarUpdate(this, 0, this.Sawmill.cookTime);
 			}
 
-			if (this.lastBurnTime != this.Refinery.power) {
-				icrafting.sendProgressBarUpdate(this, 1, this.Refinery.power);
+			if (this.lastBurnTime != this.Sawmill.power) {
+				icrafting.sendProgressBarUpdate(this, 1, this.Sawmill.power);
 			}
 		}
 
-		this.lastCookTime = this.Refinery.cookTime;
-		this.lastBurnTime = this.Refinery.power;
+		this.lastCookTime = this.Sawmill.cookTime;
+		this.lastBurnTime = this.Sawmill.power;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int par1, int par2) {
 		if (par1 == 0) {
-			this.Refinery.cookTime = par2;
+			this.Sawmill.cookTime = par2;
 		}
 
 		if (par1 == 1) {
-			this.Refinery.power = par2;
+			this.Sawmill.power = par2;
 		}
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-		return this.Refinery.isUseableByPlayer(par1EntityPlayer);
+		return this.Sawmill.isUseableByPlayer(par1EntityPlayer);
 	}
 
 	@Override
@@ -99,12 +99,12 @@ public class ContainerRefinery extends Container {
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (par2 != 1 && par2 != 0) {
-				OreRecipesRefinery.ores();
+				OreRecipesSawmill.ores();
 				if (FurnaceRecipes.smelting().getSmeltingResult(itemstack1) != null) {
 					if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
 						return null;
 					}
-				} else if (TileEntityRefinery.isItemFuel(itemstack1)) {
+				} else if (TileEntitySawmill.isItemFuel(itemstack1)) {
 					if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}

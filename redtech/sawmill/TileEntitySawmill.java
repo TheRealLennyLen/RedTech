@@ -1,4 +1,4 @@
-package thereallennylen.redtech.refinery;
+package thereallennylen.redtech.sawmill;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,14 +13,14 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityRefinery extends TileEntity implements ISidedInventory {
+public class TileEntitySawmill extends TileEntity implements ISidedInventory {
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 2, 1 };
 	private static final int[] slots_sides = new int[] { 1 };
 
 	private ItemStack[] slots = new ItemStack[3];
 
-	public int refiningSpeed = 60;
+	public int sawmillingSpeed = 60;
 
 	public int power;
 	public int maxPower = 3800;
@@ -86,7 +86,7 @@ public class TileEntityRefinery extends TileEntity implements ISidedInventory {
 	@Override
 	public String getInvName() {
 		return this.isInvNameLocalized() ? this.field_94130_e
-				: "container.Refinery";
+				: "container.Sawmill";
 	}
 
 	@Override
@@ -153,7 +153,7 @@ public class TileEntityRefinery extends TileEntity implements ISidedInventory {
 
 	@SideOnly(Side.CLIENT)
 	public int getCookProgressScaled(int par1) {
-		return this.cookTime * par1 / this.refiningSpeed;
+		return this.cookTime * par1 / this.sawmillingSpeed;
 	}
 
 	public int getPowerRemainingScaled(int par1) {
@@ -179,7 +179,7 @@ public class TileEntityRefinery extends TileEntity implements ISidedInventory {
 
 		if (!this.worldObj.isRemote) {
 			if (this.power < this.maxPower
-					&& TileEntityRefinery.getItemPower(this.slots[1]) > 0) {
+					&& TileEntitySawmill.getItemPower(this.slots[1]) > 0) {
 				this.power += getItemPower(this.slots[1]);
 
 				flag1 = true;
@@ -197,7 +197,7 @@ public class TileEntityRefinery extends TileEntity implements ISidedInventory {
 			if (this.hasPower() && this.canSmelt()) {
 				++this.cookTime;
 
-				if (this.cookTime == this.refiningSpeed) {
+				if (this.cookTime == this.sawmillingSpeed) {
 					this.cookTime = 0;
 					this.smeltItem();
 					flag1 = true;
@@ -208,7 +208,7 @@ public class TileEntityRefinery extends TileEntity implements ISidedInventory {
 
 			if (flag != this.power > 0) {
 				flag1 = true;
-				BlockRefinery.updateFurnaceBlockState(this.power > 0,
+				BlockSawmill.updateFurnaceBlockState(this.power > 0,
 						this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 		}
@@ -218,18 +218,25 @@ public class TileEntityRefinery extends TileEntity implements ISidedInventory {
 		}
 	}
 
-	public boolean isOre(ItemStack itemstack) {
-		String[] oreNames = OreDictionary.getOreNames();
-
-		for (int i = 0; i < oreNames.length; i++) {
-			if (oreNames[i].contains("ore")) {
-				if (OreDictionary.getOres(oreNames[i]).size() >0) {
-					if (OreDictionary.getOres(oreNames[i]).get(0).itemID == itemstack.itemID) {
-						return true;
-					}
-				}
-			}
-		}
+	public boolean isOre(ItemStack itemstack){
+    	//For Wood
+    	if(OreRecipesSawmill.ores().getSmeltingResult(itemstack) != null){
+    		return true;
+    	}
+    	
+    	//For ores
+    	/*String[] oreNames = OreDictionary.getOreNames();
+    	
+    	for(int i = 0; i < oreNames.length; i++){
+    		if(oreNames[i].contains("ore")){
+	    		if(OreDictionary.getOres(oreNames[i]).size() > 0){
+	    			if(OreDictionary.getOres(oreNames[i]).get(0).itemID == itemstack.itemID){
+	    				return true;        			
+	    			}
+	    		}
+    		}
+    	}*/
+    	
 
 		return false;
 	}
