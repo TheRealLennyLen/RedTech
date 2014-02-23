@@ -1,10 +1,8 @@
 package thereallennylen.redtech;
 
 import thereallennylen.redtech.refinery.BlockRefinery;
-import thereallennylen.redtech.refinery.GuiHandlerRefinery;
 import thereallennylen.redtech.refinery.TileEntityRefinery;
 import thereallennylen.redtech.sawmill.BlockSawmill;
-import thereallennylen.redtech.sawmill.GuiHandlerSawmill;
 import thereallennylen.redtech.sawmill.TileEntitySawmill;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -94,9 +92,7 @@ public class RedTech {
 		LanguageRegistry.instance().addStringLocalization(
 				RedTechTab.getTranslatedTabLabel(), "RedTech");
 
-		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandlerRefinery());
-		
-		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandlerSawmill());
+		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 
 		GameRegistry.addRecipe(new ItemStack(RedTech.blockRefineryIdle), "rir",
 				"ipi", "rfr", 'r', redstoneStack, 'i', ironStack, 'f',

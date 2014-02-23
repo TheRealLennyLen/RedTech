@@ -245,7 +245,7 @@ public class TileEntitySawmill extends TileEntity implements ISidedInventory {
 		if (this.slots[0] == null) {
 			return false;
 		} else {
-			ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(
+			ItemStack itemstack = OreRecipesSawmill.ores().getSmeltingResult(
 					this.slots[0]);
 			if (itemstack == null)
 				return false;
@@ -263,7 +263,7 @@ public class TileEntitySawmill extends TileEntity implements ISidedInventory {
 
 	public void smeltItem() {
 		if (this.canSmelt()) {
-			ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(
+			ItemStack itemstack = OreRecipesSawmill.ores().getSmeltingResult(
 					this.slots[0]);
 
 			if (this.slots[2] == null) {

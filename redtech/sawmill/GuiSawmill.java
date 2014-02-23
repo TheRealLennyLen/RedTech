@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiSawmill extends GuiContainer {
 	public static final ResourceLocation texture = new ResourceLocation(
-			RedTech.modid.toLowerCase(), "textures/gui/Sawmill.png");
+			RedTech.modid.toLowerCase(), "textures/gui/refinery.png");
 
 	public TileEntitySawmill Sawmill;
 
